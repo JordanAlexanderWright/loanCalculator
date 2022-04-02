@@ -43,22 +43,33 @@ function loader(toggle){
         loading.classList.add('hide');
     }
 };
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
-  }
+
+// This sleep function breaks everything. Not good. 
+
+// function sleep(milliseconds) {
+//     const date = Date.now();
+//     let currentDate = null;
+//     do {
+//       currentDate = Date.now();
+//     } while (currentDate - date < milliseconds);
+//   }
   
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+
 function displayResults(totalAcc, monthlyPay, totalInt){
-    
-    monthlyPayment.form.focus();
-    monthlyPayment.form.value= `$ ${monthlyPay}`
-    totalPayment.form.focus();
-    totalPayment.form.value=`$ ${totalAcc}`
-    totalInterest.form.focus();
-    totalInterest.form.value = `$ ${totalInt}`
+    sleep(5000).then(() => {
+        loader('off');
+        monthlyPayment.form.focus();
+        monthlyPayment.form.value= `$ ${monthlyPay}`
+        totalPayment.form.focus();
+        totalPayment.form.value=`$ ${totalAcc}`
+        totalInterest.form.focus();
+        totalInterest.form.value = `$ ${totalInt}`
+    });
+ 
 
 }
 
