@@ -1,6 +1,7 @@
 calcButton = document.querySelector('#calculate');
 
-function calculate() {
+function calculate(e) {
+    e.preventDefault();
 
     principal = Number(loanAmount.form.value);
     interestRate = (Number(apr.form.value))/100;
@@ -22,13 +23,26 @@ function calculate() {
     totalInt = totalAcc - principal
 
     if (typeof(principal) === 'number' & typeof(interestRate)  === 'number' & typeof(timeYears)  === 'number'){
-        displayResults(totalAcc, monthlyPay, totalInt);
+        
+        results = document.querySelector('.results')
+        results.classList.remove('hide');
+        
     } else {
         console.log('please check your information inputs');
     };
 
+    loader('on');
+    displayResults(totalAcc, monthlyPay, totalInt);
 };
 
+function loader(toggle){
+    if (toggle === 'on'){
+        loading = document.querySelector('.loader');
+        loading.classList.remove('hide');
+    } else if (toggle === 'off'){
+        loading.classList.add('hide');
+    }
+};
 function sleep(milliseconds) {
     const date = Date.now();
     let currentDate = null;
@@ -38,18 +52,13 @@ function sleep(milliseconds) {
   }
   
 function displayResults(totalAcc, monthlyPay, totalInt){
-    results = document.querySelector('.results')
-    results.classList.remove('hide');
     
     monthlyPayment.form.focus();
     monthlyPayment.form.value= `$ ${monthlyPay}`
-    sleep(1000);
     totalPayment.form.focus();
     totalPayment.form.value=`$ ${totalAcc}`
-    sleep(1000);
     totalInterest.form.focus();
     totalInterest.form.value = `$ ${totalInt}`
-    sleep(1000);
 
 }
 
@@ -87,13 +96,3 @@ let loanLength = new formBox('time');
 let monthlyPayment = new formBox('monthly-payment');
 let totalPayment = new formBox('total-payment');
 let totalInterest = new formBox('total-interest');
-
-let something = .005;
-
-
-
-console.log(typeof(something))
-
-if (typeof(something) == 'number'){
-    console.log('hello')
-}
