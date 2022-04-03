@@ -1,4 +1,5 @@
 calcButton = document.querySelector('#calculate');
+calcButton.addEventListener('click', calculate);
 
 function calculate(e) {
     e.preventDefault();
@@ -43,21 +44,10 @@ function loader(toggle){
         loading.classList.add('hide');
     }
 };
-
-// This sleep function breaks everything. Not good. 
-
-// function sleep(milliseconds) {
-//     const date = Date.now();
-//     let currentDate = null;
-//     do {
-//       currentDate = Date.now();
-//     } while (currentDate - date < milliseconds);
-//   }
   
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
   }
-
 
 function displayResults(totalAcc, monthlyPay, totalInt){
     sleep(5000).then(() => {
@@ -73,9 +63,6 @@ function displayResults(totalAcc, monthlyPay, totalInt){
 
 }
 
-
-calcButton.addEventListener('click', calculate);
-
 class formBox {
 
     constructor(id){
@@ -85,25 +72,29 @@ class formBox {
         this.form.addEventListener('blur', this.textCheck);
     }
 
-        textCheck(e){
-            if (e.currentTarget.value === ''){
-                e.currentTarget.value = e.currentTarget.defaultValue;
-            }; 
-        };
+    textCheck(e){
+        if (e.currentTarget.value === ''){
+            e.currentTarget.value = e.currentTarget.defaultValue;
+        }; 
+    };
 
-        clearText(e){
+    clearText(e){
 
-            if (this.value === this.defaultValue){
-                this.value=''
-            }; 
-        };
+        if (this.value === this.defaultValue){
+            this.value=''
+        }; 
+    };
 };
 
+// making my formboxes, need to figure out a good way to automate this for scalability
+// I could also use delegation to handle most of this, but would just be a different approach to creating this. 
 
+//input boxes
 let loanAmount = new formBox('amount');
 let apr = new formBox('interest');
 let loanLength = new formBox('time');
 
+//result boxes
 let monthlyPayment = new formBox('monthly-payment');
 let totalPayment = new formBox('total-payment');
 let totalInterest = new formBox('total-interest');
