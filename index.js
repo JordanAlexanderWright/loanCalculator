@@ -20,33 +20,36 @@ function calculate(e) {
     interestRate = (Number(apr.form.value))/100;
     timeYears = Number(loanLength.form.value);
 
+    console.log(interestRate)
+    console.log(principal)
+    console.log(timeYears)
+
     timeMonths = timeYears * 12
     monthlyInterest = interestRate / 12
 
 
     totalAcc = principal*(1+(interestRate*(timeYears)));
-    console.log(totalAcc);
 
     periodicInterest = (1 + monthlyInterest)**timeMonths
 
     monthlyPay = (principal*(monthlyInterest)*((1+monthlyInterest)**timeMonths)) / (((1+monthlyInterest)**timeMonths) - 1)
     monthlyPay = monthlyPay.toFixed(2)
-    console.log(monthlyPay)
 
     totalInt = totalAcc - principal
 
-    // This is the function for creating the loading graphic
+    // Checking to see if any inputs are invalid 
 
-    loader('on');
-
-    if (typeof(principal) === 'number' & typeof(interestRate)  === 'number' & typeof(timeYears)  === 'number'){
-        console.log(typeof(principal))
-        console.log('ok');
+    if ((principal || interestRate || timeYears) === 0){
+        showError()
+        setTimeout(() => {clearError()}, 3000);  
+    } else if (isNaN(principal) || isNaN(interestRate) || isNaN(timeYears) === true){
+        showError()
+        setTimeout(() => {clearError()}, 3000);
     } else {
-        console.log('nope');
+        loader('on');
+        displayResults(totalAcc, monthlyPay, totalInt);
     };
 
-    displayResults(totalAcc, monthlyPay, totalInt);
 };
 
     // This function will show / hide a loading graphic while results are calculated
@@ -69,17 +72,9 @@ const sleep = (milliseconds) => {
 
 function displayResults(totalAcc, monthlyPay, totalInt){
     sleep(3000).then(() => {
-
-        if (typeof(principal) === 'number' & typeof(interestRate)  === 'number' & typeof(timeYears)  === 'number'){
         
-            results = document.querySelector('.results')
-            results.classList.remove('hide');
-            
-        } else {
-            showError()
-            sleep(2000).then(() => {
-                clearError();
-            })
+        results = document.querySelector('.results')
+        results.classList.remove('hide');
 
         loader('off');
         monthlyPayment.form.focus();
@@ -88,11 +83,8 @@ function displayResults(totalAcc, monthlyPay, totalInt){
         totalPayment.form.value=`$ ${totalAcc}`
         totalInterest.form.focus();
         totalInterest.form.value = `$ ${totalInt}`
-        };
     });
- 
-
-}
+};
 
 // This is a class constructor that will get all the elements I need. Should be cleaned up,
 // Just another way of selecting elements. 
@@ -151,4 +143,12 @@ let monthlyPayment = new formBox('monthly-payment');
 let totalPayment = new formBox('total-payment');
 let totalInterest = new formBox('total-interest');
 
-console.log(results.classList);
+let myVar = 4;
+let notMyVar = 4;
+
+let badNumber = 'asdf'
+
+badNumber = Number(badNumber)
+
+console.log(badNumber);
+
