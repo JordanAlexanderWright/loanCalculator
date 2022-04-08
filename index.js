@@ -5,6 +5,7 @@ results = document.querySelector('.results');
 function calculate(e) {
     e.preventDefault();
 
+
     // a check to see if  previous results need to be hidden (if a clalculation has already been made)
 
     if(results.classList.contains('hide')){
@@ -38,6 +39,13 @@ function calculate(e) {
 
     loader('on');
 
+    if (typeof(principal) === 'number' & typeof(interestRate)  === 'number' & typeof(timeYears)  === 'number'){
+        console.log(typeof(principal))
+        console.log('ok');
+    } else {
+        console.log('nope');
+    };
+
     displayResults(totalAcc, monthlyPay, totalInt);
 };
 
@@ -68,9 +76,11 @@ function displayResults(totalAcc, monthlyPay, totalInt){
             results.classList.remove('hide');
             
         } else {
-            console.log('please check your information inputs');
-        };
-    
+            showError()
+            sleep(2000).then(() => {
+                clearError();
+            })
+
         loader('off');
         monthlyPayment.form.focus();
         monthlyPayment.form.value= `$ ${monthlyPay}`
@@ -78,6 +88,7 @@ function displayResults(totalAcc, monthlyPay, totalInt){
         totalPayment.form.value=`$ ${totalAcc}`
         totalInterest.form.focus();
         totalInterest.form.value = `$ ${totalInt}`
+        };
     });
  
 
@@ -109,6 +120,24 @@ class formBox {
     };
 };
 
+function showError(){
+
+    errorMessage = document.createElement('div');
+    errorMessage.classList.add('alert');
+    message = document.createTextNode('Please Check Your Inputs');
+
+    errorMessage.appendChild(message);
+
+    parent = document.querySelector('.card-content');
+    title = document.querySelector('.card-title');
+
+    parent.insertBefore(errorMessage, title);
+}
+
+function clearError(){
+    errorMessage.remove();
+}
+
 // making my formboxes, need to figure out a good way to automate this for scalability
 // I could also use delegation to handle most of this, but would just be a different approach to creating this. 
 
@@ -121,7 +150,5 @@ let loanLength = new formBox('time');
 let monthlyPayment = new formBox('monthly-payment');
 let totalPayment = new formBox('total-payment');
 let totalInterest = new formBox('total-interest');
-
-
 
 console.log(results.classList);
