@@ -15,4 +15,13 @@
 
   .alert {
     color: red;
+    background-color: rgb(218, 216, 216);
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+    border-style: inset;
+    border-color: rgb(161, 161, 161);
+    border-radius: 4px;
+    margin-left: 10%;
+    margin-right: 10%;
   }

@@ -9,7 +9,7 @@ function calculate(e) {
     // a check to see if  previous results need to be hidden (if a clalculation has already been made)
 
     if(results.classList.contains('hide')){
-        console.log('hidden');
+       
     } else {
         results.classList.add('hide');
     };
@@ -20,13 +20,8 @@ function calculate(e) {
     interestRate = (Number(apr.form.value))/100;
     timeYears = Number(loanLength.form.value);
 
-    console.log(interestRate)
-    console.log(principal)
-    console.log(timeYears)
-
-    timeMonths = timeYears * 12
-    monthlyInterest = interestRate / 12
-
+    timeMonths = timeYears * 12;
+    monthlyInterest = interestRate / 12;
 
     totalAcc = principal*(1+(interestRate*(timeYears)));
 
@@ -40,11 +35,9 @@ function calculate(e) {
     // Checking to see if any inputs are invalid 
 
     if ((principal || interestRate || timeYears) === 0){
-        showError()
-        setTimeout(() => {clearError()}, 3000);  
+        showError()  
     } else if (isNaN(principal) || isNaN(interestRate) || isNaN(timeYears) === true){
         showError()
-        setTimeout(() => {clearError()}, 3000);
     } else {
         loader('on');
         displayResults(totalAcc, monthlyPay, totalInt);
@@ -114,6 +107,17 @@ class formBox {
 
 function showError(){
 
+    if (typeof(errorMessage) !== 'undefined'){
+
+        const highestId = window.setTimeout(() => {
+            for (let i = highestId; i >= 0; i--) {
+              window.clearInterval(i);
+            }
+          }, 0);
+          
+        clearError();
+    }
+
     errorMessage = document.createElement('div');
     errorMessage.classList.add('alert');
     message = document.createTextNode('Please Check Your Inputs');
@@ -124,6 +128,9 @@ function showError(){
     title = document.querySelector('.card-title');
 
     parent.insertBefore(errorMessage, title);
+
+    setTimeout(() => {clearError()}, 3000);
+
 }
 
 function clearError(){
@@ -142,13 +149,4 @@ let loanLength = new formBox('time');
 let monthlyPayment = new formBox('monthly-payment');
 let totalPayment = new formBox('total-payment');
 let totalInterest = new formBox('total-interest');
-
-let myVar = 4;
-let notMyVar = 4;
-
-let badNumber = 'asdf'
-
-badNumber = Number(badNumber)
-
-console.log(badNumber);
 
